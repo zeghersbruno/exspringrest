@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,32 +23,26 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class PersonController {
 
-    Person loggedInPerson;
-
     @Autowired
     PersonService personService;
 
-    @GetMapping("persons/{id}")
+    @GetMapping("/persons/{id}")
     Person findPersonById(@PathVariable("id") int personId) {
         return personService.findPerson(personId);
     }
 
-    @GetMapping("persons")
+    @GetMapping("/persons")
     ArrayList<Person> getAllPersons() {
         return personService.getAllPersons();
     }
 
-    @GetMapping("persons/{email}/{password}")
-    public Person findPersonByEmailAndPassword(@PathVariable("email") String emailAddress, @PathVariable("password") String password) {
-        return personService.findPerson(emailAddress, password);
-    }
 
-    @PostMapping("/")
+    @PostMapping("/login")
     public Person login(Model model, @RequestBody Login login) {
         return personService.findPerson(login.getEmail(),login.getPassword());
     }
 
-    @PostMapping("addperson")
+    @PostMapping("/persons")
     public void addPerson(@RequestBody Person person) {
         try {
             personService.addPerson(person);
@@ -56,7 +51,7 @@ public class PersonController {
         }
     }
 
-    @PostMapping("deleteperson/{id}")
+    @DeleteMapping("/persons/{id}")
     public void deletePerson(@PathVariable("id") int personId) {
         try {
             personService.deletePerson(personId);
@@ -65,10 +60,10 @@ public class PersonController {
         }
     }
 
-    @PutMapping("persons/{id}/changepassword/{np}")
-    public void changePassword(@PathVariable("id") int personId, @PathVariable("np") String newPassword) {
+    @PutMapping("persons/{id}")
+    public void changePassword(@PathVariable("id") int personId, @RequestBody Person person) {
         try {
-            personService.changePassword(personService.findPerson(personId), newPassword);
+            personService.changePassword(personService.findPerson(personId), person.getPassword());
         } catch (IOException e) {
             e.printStackTrace();
         }

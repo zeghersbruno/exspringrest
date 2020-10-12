@@ -1,14 +1,8 @@
 package be.abis.exercise.model;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-
 public class Login {
-	
-	@NotBlank(message="email cannot be empty")
-	@Email(message="email has to be valid")
+
 	private String email;
-	@NotBlank(message="password cannot be empty")
 	private String password;
 	
 
