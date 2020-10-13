@@ -5,7 +5,9 @@ import static org.junit.Assert.assertNotNull;
 
 import be.abis.exercise.model.Login;
 import be.abis.exercise.model.Person;
+import be.abis.exercise.service.AbisTrainingService;
 import be.abis.exercise.service.ApiPersonService;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.Test;
@@ -24,6 +26,9 @@ public class ExB1ClientApplicationTests {
 
 	@Autowired
 	ApiPersonService apiPersonService;
+
+	@Autowired
+	AbisTrainingService abisTrainingService;
 
 	private String apiUrl = "http://localhost:8085/exercise/api";
 
@@ -64,8 +69,33 @@ public class ExB1ClientApplicationTests {
 		assertNotNull(p);
 		assertEquals("Mary", p.getFirstName());
 	}
+
 	@Test
 	public void findAllPersonsTest() {
 		//TODO
+	}
+
+	@Test
+	public void changePasswordViaApiTest() throws IOException {
+		int id = 2;
+		Person p = apiPersonService.findPerson(id);
+		assertNotNull(p);
+		System.out.println("current password " + p.getPassword());
+		apiPersonService.changePassword(p, "xyz789");
+		Person pAfter = apiPersonService.findPerson(2);
+		assertNotNull(pAfter);
+		assertEquals("xyz789", pAfter.getPassword());
+	}
+
+	@Test
+	public void changePasswordViaAbisTrainingTest() throws IOException {
+		int id = 2;
+		Person p = abisTrainingService.findPerson(id);
+		assertNotNull(p);
+		System.out.println("current password " + p.getPassword());
+		abisTrainingService.changePassword(p, "xyz789");
+		Person pAfter = apiPersonService.findPerson(2);
+		assertNotNull(pAfter);
+		assertEquals("xyz789", pAfter.getPassword());
 	}
 }

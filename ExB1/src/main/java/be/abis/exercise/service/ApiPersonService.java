@@ -39,16 +39,16 @@ public class ApiPersonService implements PersonService {
 
     @Override
     public void addPerson(Person p) throws IOException {
-
+        rt.postForObject(apiUrl+"/persons", p, Void.class);
     }
 
     @Override
     public void deletePerson(int id) throws PersonCanNotBeDeletedException {
-
+        rt.delete(apiUrl+"/persons/"+id, Void.class);
     }
 
     @Override
     public void changePassword(Person p, String newPswd) throws IOException {
-
+        rt.put(apiUrl+"/persons/"+p.getPersonId(), p, newPswd, Void.class);
     }
 }
