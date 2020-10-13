@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNotNull;
 
 import be.abis.exercise.model.Login;
 import be.abis.exercise.model.Person;
+import be.abis.exercise.service.ApiPersonService;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.Test;
@@ -20,16 +21,24 @@ public class ExB1ClientApplicationTests {
 
 	@Autowired
 	private RestTemplate rt;
-	private String urlApi = "http://localhost:8085/exercise/api";
+
+	@Autowired
+	ApiPersonService apiPersonService;
+
+	private String apiUrl = "http://localhost:8085/exercise/api";
 
 	@Test
 	public void contextLoads() {
 	}
 
+	/**
+	 * Tests via Url
+	 *
+	 */
 	@Test
 	public void findPersonByIdTest() {
 		int id = 2;
-		Person p = rt.getForObject(urlApi+"/persons/"+id, Person.class);
+		Person p = rt.getForObject(apiUrl+"/persons/"+id, Person.class);
 		assertNotNull(p);
 		assertEquals("Mary", p.getFirstName());
 	}
@@ -39,11 +48,22 @@ public class ExB1ClientApplicationTests {
 		Login login = new Login();
 		login.setEmail("mjones@abis.be");
 		login.setPassword("abc123");
-		Person p = rt.postForObject(urlApi+"/login", login, Person.class);
+		Person p = rt.postForObject(apiUrl+"/login", login, Person.class);
 		assertNotNull(p);
 		assertEquals("Mary", p.getFirstName());
 	}
 
+	/**
+	 * Tests via ApiPersonService
+	 *
+	 */
+	@Test
+	public void finPersonByIdViaApiPersonServiceTest() {
+		int id = 2;
+		Person p = apiPersonService.findPerson(id);
+		assertNotNull(p);
+		assertEquals("Mary", p.getFirstName());
+	}
 	@Test
 	public void findAllPersonsTest() {
 		//TODO

@@ -5,12 +5,17 @@ import be.abis.exercise.model.Login;
 import be.abis.exercise.model.Person;
 import java.io.IOException;
 import java.util.ArrayList;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 @Service
 public class ApiPersonService implements PersonService {
 
     String apiUrl = "http://localhost:8085/exercise/api";
+
+    @Autowired
+    private RestTemplate rt;
 
     @Override
     public ArrayList<Person> getAllPersons() {
@@ -19,7 +24,8 @@ public class ApiPersonService implements PersonService {
 
     @Override
     public Person findPerson(int id) {
-        return null;
+        Person p = rt.getForObject(apiUrl+"/persons/"+id, Person.class);
+        return p;
     }
 
     @Override
@@ -27,8 +33,8 @@ public class ApiPersonService implements PersonService {
         Login login = new Login();
         login.setEmail(emailAddress);
         login.setPassword(passWord);
-
-        return null;
+        Person p = rt.postForObject(apiUrl+"/login", login, Person.class);
+        return p;
     }
 
     @Override
