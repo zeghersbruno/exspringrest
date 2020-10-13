@@ -74,6 +74,7 @@ public class ExB1ClientApplicationTests {
 	public void getAllPersonsViaApiPersonService() {
 		ArrayList<Person> persons = apiPersonService.getAllPersons();
 		assertNotNull(persons);
+		assertEquals("Mary", persons.get(1).getFirstName());
 	}
 
 
