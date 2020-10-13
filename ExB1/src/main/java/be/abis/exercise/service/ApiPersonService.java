@@ -1,6 +1,7 @@
 package be.abis.exercise.service;
 
 import be.abis.exercise.exception.PersonCanNotBeDeletedException;
+import be.abis.exercise.model.Login;
 import be.abis.exercise.model.Person;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -23,6 +24,10 @@ public class ApiPersonService implements PersonService {
 
     @Override
     public Person findPerson(String emailAddress, String passWord) {
+        Login login = new Login();
+        login.setEmail(emailAddress);
+        login.setPassword(passWord);
+
         return null;
     }
 
