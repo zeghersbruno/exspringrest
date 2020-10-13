@@ -71,9 +71,11 @@ public class ExB1ClientApplicationTests {
 	}
 
 	@Test
-	public void findAllPersonsTest() {
-		//TODO
+	public void getAllPersonsViaApiPersonService() {
+		ArrayList<Person> persons = apiPersonService.getAllPersons();
+		assertNotNull(persons);
 	}
+
 
 	@Test
 	public void changePasswordViaApiTest() throws IOException {
@@ -93,9 +95,9 @@ public class ExB1ClientApplicationTests {
 		Person p = abisTrainingService.findPerson(id);
 		assertNotNull(p);
 		System.out.println("current password " + p.getPassword());
-		abisTrainingService.changePassword(p, "xyz789");
+		abisTrainingService.changePassword(p, "abc123");
 		Person pAfter = apiPersonService.findPerson(2);
 		assertNotNull(pAfter);
-		assertEquals("xyz789", pAfter.getPassword());
+		assertEquals("abc123", pAfter.getPassword());
 	}
 }
