@@ -63,7 +63,7 @@ public class PersonController {
     @PutMapping("persons/{id}")
     public void changePassword(@PathVariable("id") int personId, @RequestBody Person person) {
         try {
-            personService.changePassword(personService.findPerson(personId), person.getPassword());
+            personService.changePassword(person, person.getPassword());
         } catch (IOException e) {
             e.printStackTrace();
         }
